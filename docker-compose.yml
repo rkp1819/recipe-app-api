@@ -1,0 +1,22 @@
+version: "3.9"
+
+# we are defining the services
+services:
+  # we are defining the service name
+  app:
+    # we are building the image from the Dockerfile
+    build:
+      # we are specifying the context of the Dockerfile
+      context: .
+      # we are specifying the arguments for the Dockerfile
+      args:
+        - DEV=true
+    # we are mapping our local machine's port 8000 to the container's port 8000
+    ports:
+      - "8000:8000"
+    # we are mapping our local machine's directory to the container's directory
+    volumes:
+      - ./app:/app
+    # we are running the command to start the server
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
