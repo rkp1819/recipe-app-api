@@ -1,0 +1,37 @@
+[tool.black]
+line-length = 88
+target-version = ['py39']
+include = '\.pyi?$'
+
+[tool.ruff]
+# Enable Pyflakes (`F`), pycodestyle (`E`), and import sorting (`I`)
+select = ["E", "F", "I", "N", "B", "C4", "W"]
+ignore = ["E501"]  # Line length is handled by Black
+
+# Same as Black
+line-length = 88
+target-version = "py39"
+
+# Exclude files and directories
+exclude = [
+    ".git",
+    "__pycache__",
+    "migrations",
+    "manage.py",
+]
+
+# Allow autofix for all enabled rules (when `--fix`) is provided
+fixable = ["ALL"]
+unfixable = []
+
+# Allow unused variables when underscore-prefixed
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.mccabe]
+max-complexity = 10
+
+[tool.ruff.per-file-ignores]
+# Ignore imported but unused in __init__.py files
+"__init__.py" = ["F401"]
+# Ignore specific rules in test files
+"test_*.py" = ["S101"] 

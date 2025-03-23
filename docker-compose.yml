@@ -20,3 +20,26 @@ services:
     # we are running the command to start the server
     command: >
       sh -c "python manage.py runserver 0.0.0.0:8000"
+    # we are setting the environment variable for the container
+    environment:
+      - DEBUG=1
+    # we are specifying the dependencies for the container
+    depends_on:
+      - lint
+
+  # we are defining the lint service
+  lint:
+    # we are building the image from the Dockerfile
+    build:
+      # we are specifying the context of the Dockerfile
+      context: .
+      # we are specifying the arguments for the Dockerfile
+      args:
+        - DEV=true
+    # we are mapping our local machine's directory to the container's directory
+    volumes:
+      - ./app:/app
+      - ./pyproject.toml:/pyproject.toml
+    # we are running the command to check the linting
+    command: >
+      sh -c "cd /app && ruff check . && black --check ."

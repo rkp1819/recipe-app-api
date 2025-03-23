@@ -13,6 +13,8 @@ COPY ./requirements.dev.txt /tmp/requirements.dev.txt
 # copy the rest of the application code into the container
 COPY ./app /app
 
+COPY ./pyproject.toml /pyproject.toml
+
 # set the working directory in the container
 WORKDIR /app
 
@@ -30,6 +32,10 @@ RUN python -m venv /py && \
     # if the environment is development, then install the development dependencies
     if [ $DEV = "true" ]; \
     then /py/bin/pip install -r /tmp/requirements.dev.txt ; \
+    fi && \
+    # Run linting during build time if DEV is true
+    if [ $DEV = "true" ]; \
+    then cd /app && /py/bin/ruff check . ; \
     fi && \
     rm -rf /tmp && \
     adduser \
